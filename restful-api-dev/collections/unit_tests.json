@@ -1,0 +1,546 @@
+{
+  "info": {
+    "name": "restful-api.dev - Unit Tests",
+    "_postman_id": "unit-tests-restful-api-dev-002",
+    "description": "Unit tests cho restful-api.dev public endpoints. Chạy bằng Collection Runner theo thứ tự từ trên xuống. POST sẽ set new_object_id cho PUT/PATCH/DELETE dùng.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "https://api.restful-api.dev",
+      "type": "string"
+    },
+    {
+      "key": "stable_object_id",
+      "value": "7",
+      "type": "string",
+      "description": "Pre-seeded fixture ID, dùng cho GET tests. ID 7 = Apple MacBook Pro 16"
+    },
+    {
+      "key": "new_object_id",
+      "value": "",
+      "type": "string",
+      "description": "Set tự động sau khi POST, dùng cho PUT/PATCH/DELETE"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET",
+      "item": [
+        {
+          "name": "[POSITIVE] Get all objects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time is less than 2000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "pm.test('Response is an array', function () {",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Array is not empty', function () {",
+                  "    pm.expect(pm.response.json().length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test('Each object has id and name', function () {",
+                  "    pm.response.json().forEach(function(obj) {",
+                  "        pm.expect(obj).to.have.property('id');",
+                  "        pm.expect(obj).to.have.property('name');",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[POSITIVE] Get multiple objects by IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects?id=3&id=5&id=10",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects"],
+              "query": [
+                { "key": "id", "value": "3" },
+                { "key": "id", "value": "5" },
+                { "key": "id", "value": "10" }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time is less than 2000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "pm.test('Returns exactly 3 objects', function () {",
+                  "    pm.expect(pm.response.json().length).to.eql(3);",
+                  "});",
+                  "",
+                  "pm.test('Returned IDs match requested IDs', function () {",
+                  "    const ids = pm.response.json().map(obj => obj.id);",
+                  "    pm.expect(ids).to.include('3');",
+                  "    pm.expect(ids).to.include('5');",
+                  "    pm.expect(ids).to.include('10');",
+                  "});",
+                  "",
+                  "pm.test('No extra objects are returned', function () {",
+                  "    const ids = pm.response.json().map(obj => obj.id);",
+                  "    ids.forEach(function(id) {",
+                  "        pm.expect(['3','5','10']).to.include(id);",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[POSITIVE] Get a single object",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{stable_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{stable_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time is less than 2000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "pm.test('Object ID matches request', function () {",
+                  "    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('stable_object_id'));",
+                  "});",
+                  "",
+                  "pm.test('Name is a non-empty string', function () {",
+                  "    pm.expect(pm.response.json().name).to.be.a('string');",
+                  "    pm.expect(pm.response.json().name.length).to.be.above(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[NEGATIVE] Get a single object - Not Found",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/99999999",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "99999999"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('Error field is returned', function () {",
+                  "    pm.expect(pm.response.json()).to.have.property('error');",
+                  "});",
+                  "",
+                  "pm.test('Error message is a non-empty string', function () {",
+                  "    pm.expect(pm.response.json().error).to.be.a('string');",
+                  "    pm.expect(pm.response.json().error.length).to.be.above(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "POST",
+      "item": [
+        {
+          "name": "[POSITIVE] Add a new object",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Apple MacBook Pro 14\",\n    \"data\": {\n        \"year\": 2023,\n        \"price\": 1999.99,\n        \"CPU model\": \"Apple M3 Pro\",\n        \"Hard disk size\": \"512 GB\",\n        \"color\": \"Space Gray\"\n    }\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time is less than 2000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "pm.test('Created object has an ID', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.exist;",
+                  "    pm.collectionVariables.set('new_object_id', jsonData.id);",
+                  "});",
+                  "",
+                  "pm.test('Name matches request body', function () {",
+                  "    pm.expect(pm.response.json().name).to.eql('Apple MacBook Pro 14');",
+                  "});",
+                  "",
+                  "pm.test('Data.year matches request body', function () {",
+                  "    pm.expect(pm.response.json().data.year).to.eql(2023);",
+                  "});",
+                  "",
+                  "pm.test('Data.price matches request body', function () {",
+                  "    pm.expect(pm.response.json().data.price).to.eql(1999.99);",
+                  "});",
+                  "",
+                  "pm.test('createdAt timestamp is present', function () {",
+                  "    pm.expect(pm.response.json().createdAt).to.exist;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[NEGATIVE] Add object - Missing name field",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"data\": {\n        \"price\": 999\n    }\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// NOTE: API này không validate required fields.",
+                  "// Gửi thiếu 'name' vẫn trả về 200 và tạo object thành công.",
+                  "// Test này verify đúng behavior thực tế của API.",
+                  "pm.test('Status code is 200 - API does not enforce name as required', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Object is created even without name field', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.exist;",
+                  "    // Ghi đè new_object_id để PUT/PATCH/DELETE dùng ID mới nhất",
+                  "    pm.collectionVariables.set('new_object_id', jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PUT",
+      "item": [
+        {
+          "name": "[POSITIVE] Update an object (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Apple MacBook Pro 14 - Updated\",\n    \"data\": {\n        \"year\": 2024,\n        \"price\": 2199.99,\n        \"CPU model\": \"Apple M3 Max\",\n        \"Hard disk size\": \"1 TB\",\n        \"color\": \"Silver\"\n    }\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Name is updated', function () {",
+                  "    pm.expect(pm.response.json().name).to.eql('Apple MacBook Pro 14 - Updated');",
+                  "});",
+                  "",
+                  "pm.test('Price is updated', function () {",
+                  "    pm.expect(pm.response.json().data.price).to.eql(2199.99);",
+                  "});",
+                  "",
+                  "pm.test('Year is updated', function () {",
+                  "    pm.expect(pm.response.json().data.year).to.eql(2024);",
+                  "});",
+                  "",
+                  "pm.test('updatedAt timestamp is present', function () {",
+                  "    pm.expect(pm.response.json().updatedAt).to.exist;",
+                  "});",
+                  "",
+                  "pm.test('Object ID is unchanged', function () {",
+                  "    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('new_object_id'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[NEGATIVE] Update an object - Not Found",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Ghost Object\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects/99999999",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "99999999"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('Error field is returned', function () {",
+                  "    pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PATCH",
+      "item": [
+        {
+          "name": "[POSITIVE] Partially update an object",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Apple MacBook Pro 14 - Patched\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Name is patched', function () {",
+                  "    pm.expect(pm.response.json().name).to.eql('Apple MacBook Pro 14 - Patched');",
+                  "});",
+                  "",
+                  "pm.test('data field is not removed by patch', function () {",
+                  "    pm.expect(pm.response.json().data).to.exist;",
+                  "});",
+                  "",
+                  "pm.test('updatedAt timestamp is present', function () {",
+                  "    pm.expect(pm.response.json().updatedAt).to.exist;",
+                  "});",
+                  "",
+                  "pm.test('Object ID is unchanged', function () {",
+                  "    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('new_object_id'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[NEGATIVE] Partially update an object - Not Found",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Ghost Patch\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects/99999999",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "99999999"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('Error field is returned', function () {",
+                  "    pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DELETE",
+      "item": [
+        {
+          "name": "[POSITIVE] Delete an object",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has message field', function () {",
+                  "    pm.expect(pm.response.json()).to.have.property('message');",
+                  "});",
+                  "",
+                  "pm.test('Message contains deleted object ID', function () {",
+                  "    pm.expect(pm.response.json().message).to.include(pm.collectionVariables.get('new_object_id'));",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set('new_object_id', '');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[NEGATIVE] Delete an object - Not Found",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/99999999",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "99999999"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('Error field is returned', function () {",
+                  "    pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
