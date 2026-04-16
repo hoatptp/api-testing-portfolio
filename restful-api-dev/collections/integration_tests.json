@@ -1,0 +1,596 @@
+{
+  "info": {
+    "name": "restful-api.dev - Integration Tests",
+    "_postman_id": "integration-tests-restful-api-dev-001",
+    "description": "Integration tests cho restful-api.dev public endpoints. Chạy bằng Collection Runner theo thứ tự từ trên xuống.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "https://api.restful-api.dev",
+      "type": "string"
+    },
+    {
+      "key": "new_object_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "created_name",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "created_price",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Flow 1 - CRUD: Create → Verify → Update → Verify → Delete → Verify 404",
+      "item": [
+        {
+          "name": "[Flow 1 - Step 1] POST: Create a new object",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Integration Test Object\",\n    \"data\": {\n        \"year\": 2023,\n        \"price\": 1999.99,\n        \"CPU model\": \"Apple M3 Pro\",\n        \"Hard disk size\": \"512 GB\"\n    }\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 1 - Step 1] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 1] Created object has an ID', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.exist;",
+                  "    pm.collectionVariables.set('new_object_id', jsonData.id);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 1] Name matches request body', function () {",
+                  "    pm.expect(pm.response.json().name).to.eql('Integration Test Object');",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 1] createdAt timestamp is present', function () {",
+                  "    pm.expect(pm.response.json().createdAt).to.exist;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 1 - Step 2] GET: Verify object was created",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 1 - Step 2] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 2] Object ID matches created object', function () {",
+                  "    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('new_object_id'));",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 2] Name matches created object', function () {",
+                  "    pm.expect(pm.response.json().name).to.eql('Integration Test Object');",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 2] Price matches created object', function () {",
+                  "    pm.expect(pm.response.json().data.price).to.eql(1999.99);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 1 - Step 3] PUT: Update the object",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Integration Test Object - Updated\",\n    \"data\": {\n        \"year\": 2024,\n        \"price\": 2499.99,\n        \"CPU model\": \"Apple M3 Max\",\n        \"Hard disk size\": \"1 TB\"\n    }\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 1 - Step 3] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 3] Name is updated', function () {",
+                  "    pm.expect(pm.response.json().name).to.eql('Integration Test Object - Updated');",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 3] Price is updated', function () {",
+                  "    pm.expect(pm.response.json().data.price).to.eql(2499.99);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 3] updatedAt is present', function () {",
+                  "    pm.expect(pm.response.json().updatedAt).to.exist;",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 3] Object ID is unchanged', function () {",
+                  "    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('new_object_id'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 1 - Step 4] GET: Verify object was updated",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 1 - Step 4] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 4] Name reflects update from Step 3', function () {",
+                  "    pm.expect(pm.response.json().name).to.eql('Integration Test Object - Updated');",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 4] Price reflects update from Step 3', function () {",
+                  "    pm.expect(pm.response.json().data.price).to.eql(2499.99);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 4] Year reflects update from Step 3', function () {",
+                  "    pm.expect(pm.response.json().data.year).to.eql(2024);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 1 - Step 5] PATCH: Partially update the object",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Integration Test Object - Patched\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 1 - Step 5] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 5] Name is patched', function () {",
+                  "    pm.expect(pm.response.json().name).to.eql('Integration Test Object - Patched');",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 5] data field is not removed by patch', function () {",
+                  "    pm.expect(pm.response.json().data).to.exist;",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 5] Price is not affected by patch', function () {",
+                  "    pm.expect(pm.response.json().data.price).to.eql(2499.99);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 1 - Step 6] GET: Verify object was patched",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 1 - Step 6] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 6] Name reflects patch from Step 5', function () {",
+                  "    pm.expect(pm.response.json().name).to.eql('Integration Test Object - Patched');",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 6] Price still intact after patch', function () {",
+                  "    pm.expect(pm.response.json().data.price).to.eql(2499.99);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 1 - Step 7] DELETE: Delete the object",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 1 - Step 7] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 7] Message contains deleted object ID', function () {",
+                  "    pm.expect(pm.response.json().message).to.include(pm.collectionVariables.get('new_object_id'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 1 - Step 8] GET: Verify object is deleted",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 1 - Step 8] Status code is 404 - object no longer exists', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 1 - Step 8] Error field is returned', function () {",
+                  "    pm.expect(pm.response.json()).to.have.property('error');",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set('new_object_id', '');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Flow 2 - Create → Get by ID → Verify data matches",
+      "item": [
+        {
+          "name": "[Flow 2 - Step 1] POST: Create object with specific data",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Flow 2 Test Object\",\n    \"data\": {\n        \"price\": 3999.99,\n        \"color\": \"Midnight Black\"\n    }\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 2 - Step 1] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('new_object_id', jsonData.id);",
+                  "pm.collectionVariables.set('created_name', jsonData.name);",
+                  "pm.collectionVariables.set('created_price', String(jsonData.data.price));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 2 - Step 2] GET: Verify data matches created object",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 2 - Step 2] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('[Flow 2 - Step 2] Name matches POST response', function () {",
+                  "    pm.expect(pm.response.json().name).to.eql(pm.collectionVariables.get('created_name'));",
+                  "});",
+                  "",
+                  "pm.test('[Flow 2 - Step 2] Price matches POST response', function () {",
+                  "    pm.expect(String(pm.response.json().data.price)).to.eql(pm.collectionVariables.get('created_price'));",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set('new_object_id', '');",
+                  "pm.collectionVariables.set('created_name', '');",
+                  "pm.collectionVariables.set('created_price', '');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Flow 3 - [NEGATIVE] Delete → Update deleted object → Verify 404",
+      "item": [
+        {
+          "name": "[Flow 3 - Step 1] POST: Create object to be deleted",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Object to delete then update\",\n    \"data\": { \"price\": 100 }\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 3 - Step 1] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set('new_object_id', pm.response.json().id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 3 - Step 2] DELETE: Delete the object",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 3 - Step 2] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 3 - Step 3] PUT: Try to update deleted object",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Should not work\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 3 - Step 3] Status code is 404 - cannot update deleted object', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set('new_object_id', '');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Flow 4 - [NEGATIVE] Delete → Delete again → Verify 404",
+      "item": [
+        {
+          "name": "[Flow 4 - Step 1] POST: Create object to be double deleted",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Object to double delete\",\n    \"data\": { \"price\": 1 }\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/objects",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 4 - Step 1] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set('new_object_id', pm.response.json().id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 4 - Step 2] DELETE: Delete the object (first time)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 4 - Step 2] Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "[Flow 4 - Step 3] DELETE: Try to delete again (second time)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["objects", "{{new_object_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[Flow 4 - Step 3] Status code is 404 - cannot delete already deleted object', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set('new_object_id', '');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

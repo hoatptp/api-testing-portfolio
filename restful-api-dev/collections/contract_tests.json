@@ -1,0 +1,420 @@
+{
+  "info": {
+    "name": "restful-api.dev - Contract Tests",
+    "_postman_id": "contract-tests-restful-api-dev-001",
+    "description": "Contract tests cho restful-api.dev public endpoints. Chỉ verify structure của response: field có tồn tại không, data type có đúng không. Không test behavior hay logic.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "https://api.restful-api.dev",
+      "type": "string"
+    },
+    {
+      "key": "stable_object_id",
+      "value": "7",
+      "type": "string",
+      "description": "Pre-seeded fixture ID. ID 7 = Apple MacBook Pro 16"
+    },
+    {
+      "key": "new_object_id",
+      "value": "",
+      "type": "string",
+      "description": "Set tự động sau khi POST, dùng cho PUT/PATCH/DELETE"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET /objects - contract",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/objects",
+          "host": ["{{BASE_URL}}"],
+          "path": ["objects"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "",
+              "pm.test('Response is an array', function () {",
+              "    pm.expect(jsonData).to.be.an('array');",
+              "});",
+              "",
+              "pm.test('Each object has id as string', function () {",
+              "    jsonData.forEach(function(obj) {",
+              "        pm.expect(obj.id).to.be.a('string');",
+              "    });",
+              "});",
+              "",
+              "pm.test('Each object has name as string', function () {",
+              "    jsonData.forEach(function(obj) {",
+              "        pm.expect(obj.name).to.be.a('string');",
+              "    });",
+              "});",
+              "",
+              "pm.test('Each object data field is object or null', function () {",
+              "    jsonData.forEach(function(obj) {",
+              "        pm.expect(obj.data === null || typeof obj.data === 'object').to.be.true;",
+              "    });",
+              "});",
+              "",
+              "pm.test('No unexpected top-level fields on each object', function () {",
+              "    const allowedFields = ['id', 'name', 'data'];",
+              "    jsonData.forEach(function(obj) {",
+              "        Object.keys(obj).forEach(function(key) {",
+              "            pm.expect(allowedFields).to.include(key);",
+              "        });",
+              "    });",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /objects?id=3&id=5&id=10 - contract",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/objects?id=3&id=5&id=10",
+          "host": ["{{BASE_URL}}"],
+          "path": ["objects"],
+          "query": [
+            { "key": "id", "value": "3" },
+            { "key": "id", "value": "5" },
+            { "key": "id", "value": "10" }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "",
+              "pm.test('Response is an array', function () {",
+              "    pm.expect(jsonData).to.be.an('array');",
+              "});",
+              "",
+              "pm.test('Each object has id as string', function () {",
+              "    jsonData.forEach(function(obj) {",
+              "        pm.expect(obj.id).to.be.a('string');",
+              "    });",
+              "});",
+              "",
+              "pm.test('Each object has name as string', function () {",
+              "    jsonData.forEach(function(obj) {",
+              "        pm.expect(obj.name).to.be.a('string');",
+              "    });",
+              "});",
+              "",
+              "pm.test('Each object data field is object or null', function () {",
+              "    jsonData.forEach(function(obj) {",
+              "        pm.expect(obj.data === null || typeof obj.data === 'object').to.be.true;",
+              "    });",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /objects/{id} - contract",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/objects/{{stable_object_id}}",
+          "host": ["{{BASE_URL}}"],
+          "path": ["objects", "{{stable_object_id}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "",
+              "pm.test('id is a string', function () {",
+              "    pm.expect(jsonData.id).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('name is a string', function () {",
+              "    pm.expect(jsonData.name).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('data is object or null', function () {",
+              "    pm.expect(jsonData.data === null || typeof jsonData.data === 'object').to.be.true;",
+              "});",
+              "",
+              "pm.test('No unexpected top-level fields', function () {",
+              "    const allowedFields = ['id', 'name', 'data'];",
+              "    Object.keys(jsonData).forEach(function(key) {",
+              "        pm.expect(allowedFields).to.include(key);",
+              "    });",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /objects/{id} 404 - contract",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/objects/99999999",
+          "host": ["{{BASE_URL}}"],
+          "path": ["objects", "99999999"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "",
+              "pm.test('error field is a string', function () {",
+              "    pm.expect(jsonData.error).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('No unexpected fields on error response', function () {",
+              "    const allowedFields = ['error'];",
+              "    Object.keys(jsonData).forEach(function(key) {",
+              "        pm.expect(allowedFields).to.include(key);",
+              "    });",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /objects - contract",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Contract Test Object\",\n    \"data\": {\n        \"year\": 2023,\n        \"price\": 999.99\n    }\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/objects",
+          "host": ["{{BASE_URL}}"],
+          "path": ["objects"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "",
+              "pm.test('id is a string', function () {",
+              "    pm.expect(jsonData.id).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('name is a string', function () {",
+              "    pm.expect(jsonData.name).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('data is object or null', function () {",
+              "    pm.expect(jsonData.data === null || typeof jsonData.data === 'object').to.be.true;",
+              "});",
+              "",
+              "pm.test('createdAt is a string', function () {",
+              "    pm.expect(jsonData.createdAt).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('createdAt is valid ISO 8601 format', function () {",
+              "    pm.expect(new Date(jsonData.createdAt).toString()).to.not.eql('Invalid Date');",
+              "});",
+              "",
+              "pm.test('No unexpected top-level fields', function () {",
+              "    const allowedFields = ['id', 'name', 'data', 'createdAt'];",
+              "    Object.keys(jsonData).forEach(function(key) {",
+              "        pm.expect(allowedFields).to.include(key);",
+              "    });",
+              "});",
+              "",
+              "pm.collectionVariables.set('new_object_id', jsonData.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT /objects/{id} - contract",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Contract Test Object - Updated\",\n    \"data\": {\n        \"year\": 2024,\n        \"price\": 1999.99\n    }\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+          "host": ["{{BASE_URL}}"],
+          "path": ["objects", "{{new_object_id}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "",
+              "pm.test('id is a string', function () {",
+              "    pm.expect(jsonData.id).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('name is a string', function () {",
+              "    pm.expect(jsonData.name).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('data is object or null', function () {",
+              "    pm.expect(jsonData.data === null || typeof jsonData.data === 'object').to.be.true;",
+              "});",
+              "",
+              "pm.test('updatedAt is a string', function () {",
+              "    pm.expect(jsonData.updatedAt).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('updatedAt is valid ISO 8601 format', function () {",
+              "    pm.expect(new Date(jsonData.updatedAt).toString()).to.not.eql('Invalid Date');",
+              "});",
+              "",
+              "pm.test('createdAt is NOT present in PUT response', function () {",
+              "    pm.expect(jsonData).to.not.have.property('createdAt');",
+              "});",
+              "",
+              "pm.test('No unexpected top-level fields', function () {",
+              "    const allowedFields = ['id', 'name', 'data', 'updatedAt'];",
+              "    Object.keys(jsonData).forEach(function(key) {",
+              "        pm.expect(allowedFields).to.include(key);",
+              "    });",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PATCH /objects/{id} - contract",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Contract Test Object - Patched\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+          "host": ["{{BASE_URL}}"],
+          "path": ["objects", "{{new_object_id}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "",
+              "pm.test('id is a string', function () {",
+              "    pm.expect(jsonData.id).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('name is a string', function () {",
+              "    pm.expect(jsonData.name).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('data is object or null', function () {",
+              "    pm.expect(jsonData.data === null || typeof jsonData.data === 'object').to.be.true;",
+              "});",
+              "",
+              "pm.test('updatedAt is a string', function () {",
+              "    pm.expect(jsonData.updatedAt).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('updatedAt is valid ISO 8601 format', function () {",
+              "    pm.expect(new Date(jsonData.updatedAt).toString()).to.not.eql('Invalid Date');",
+              "});",
+              "",
+              "pm.test('createdAt is NOT present in PATCH response', function () {",
+              "    pm.expect(jsonData).to.not.have.property('createdAt');",
+              "});",
+              "",
+              "pm.test('No unexpected top-level fields', function () {",
+              "    const allowedFields = ['id', 'name', 'data', 'updatedAt'];",
+              "    Object.keys(jsonData).forEach(function(key) {",
+              "        pm.expect(allowedFields).to.include(key);",
+              "    });",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE /objects/{id} - contract",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/objects/{{new_object_id}}",
+          "host": ["{{BASE_URL}}"],
+          "path": ["objects", "{{new_object_id}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "",
+              "pm.test('message is a string', function () {",
+              "    pm.expect(jsonData.message).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('No unexpected top-level fields', function () {",
+              "    const allowedFields = ['message'];",
+              "    Object.keys(jsonData).forEach(function(key) {",
+              "        pm.expect(allowedFields).to.include(key);",
+              "    });",
+              "});",
+              "",
+              "pm.collectionVariables.set('new_object_id', '');"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
