@@ -1,0 +1,650 @@
+{
+	"id": "fb331648-27aa-4747-ad59-4dea56d8dd6c",
+	"name": "restful-api.dev - Integration Tests",
+	"timestamp": "2026-04-15T18:18:24.304Z",
+	"collection_id": "21093733-a63b8498-6edc-4e9e-8a32-2d79db217373",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 38,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-04-15T18:18:19.585Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "519eb346-f8d2-44fa-9488-10223d06fff3",
+			"name": "[Flow 1 - Step 1] POST: Create a new object",
+			"url": "https://api.restful-api.dev/objects",
+			"time": 313,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 1 - Step 1] Status code is 200": true,
+				"[Flow 1 - Step 1] Created object has an ID": true,
+				"[Flow 1 - Step 1] Name matches request body": true,
+				"[Flow 1 - Step 1] createdAt timestamp is present": true
+			},
+			"testPassFailCounts": {
+				"[Flow 1 - Step 1] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 1] Created object has an ID": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 1] Name matches request body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 1] createdAt timestamp is present": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				313
+			],
+			"allTests": [
+				{
+					"[Flow 1 - Step 1] Status code is 200": true,
+					"[Flow 1 - Step 1] Created object has an ID": true,
+					"[Flow 1 - Step 1] Name matches request body": true,
+					"[Flow 1 - Step 1] createdAt timestamp is present": true
+				}
+			]
+		},
+		{
+			"id": "e8969542-c28f-4719-ad5d-874962a0a16c",
+			"name": "[Flow 1 - Step 2] GET: Verify object was created",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925d9a891420",
+			"time": 123,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 1 - Step 2] Status code is 200": true,
+				"[Flow 1 - Step 2] Object ID matches created object": true,
+				"[Flow 1 - Step 2] Name matches created object": true,
+				"[Flow 1 - Step 2] Price matches created object": true
+			},
+			"testPassFailCounts": {
+				"[Flow 1 - Step 2] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 2] Object ID matches created object": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 2] Name matches created object": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 2] Price matches created object": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				123
+			],
+			"allTests": [
+				{
+					"[Flow 1 - Step 2] Status code is 200": true,
+					"[Flow 1 - Step 2] Object ID matches created object": true,
+					"[Flow 1 - Step 2] Name matches created object": true,
+					"[Flow 1 - Step 2] Price matches created object": true
+				}
+			]
+		},
+		{
+			"id": "c6e812bb-eff5-437d-b06d-197a1794c3f0",
+			"name": "[Flow 1 - Step 3] PUT: Update the object",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925d9a891420",
+			"time": 131,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 1 - Step 3] Status code is 200": true,
+				"[Flow 1 - Step 3] Name is updated": true,
+				"[Flow 1 - Step 3] Price is updated": true,
+				"[Flow 1 - Step 3] updatedAt is present": true,
+				"[Flow 1 - Step 3] Object ID is unchanged": true
+			},
+			"testPassFailCounts": {
+				"[Flow 1 - Step 3] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 3] Name is updated": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 3] Price is updated": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 3] updatedAt is present": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 3] Object ID is unchanged": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				131
+			],
+			"allTests": [
+				{
+					"[Flow 1 - Step 3] Status code is 200": true,
+					"[Flow 1 - Step 3] Name is updated": true,
+					"[Flow 1 - Step 3] Price is updated": true,
+					"[Flow 1 - Step 3] updatedAt is present": true,
+					"[Flow 1 - Step 3] Object ID is unchanged": true
+				}
+			]
+		},
+		{
+			"id": "47c4566f-c213-43c6-8e22-abffa0c155ad",
+			"name": "[Flow 1 - Step 4] GET: Verify object was updated",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925d9a891420",
+			"time": 355,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 1 - Step 4] Status code is 200": true,
+				"[Flow 1 - Step 4] Name reflects update from Step 3": true,
+				"[Flow 1 - Step 4] Price reflects update from Step 3": true,
+				"[Flow 1 - Step 4] Year reflects update from Step 3": true
+			},
+			"testPassFailCounts": {
+				"[Flow 1 - Step 4] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 4] Name reflects update from Step 3": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 4] Price reflects update from Step 3": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 4] Year reflects update from Step 3": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				355
+			],
+			"allTests": [
+				{
+					"[Flow 1 - Step 4] Status code is 200": true,
+					"[Flow 1 - Step 4] Name reflects update from Step 3": true,
+					"[Flow 1 - Step 4] Price reflects update from Step 3": true,
+					"[Flow 1 - Step 4] Year reflects update from Step 3": true
+				}
+			]
+		},
+		{
+			"id": "e0f03259-995b-4ab2-b71c-ee0e9e4d3ba6",
+			"name": "[Flow 1 - Step 5] PATCH: Partially update the object",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925d9a891420",
+			"time": 133,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 1 - Step 5] Status code is 200": true,
+				"[Flow 1 - Step 5] Name is patched": true,
+				"[Flow 1 - Step 5] data field is not removed by patch": true,
+				"[Flow 1 - Step 5] Price is not affected by patch": true
+			},
+			"testPassFailCounts": {
+				"[Flow 1 - Step 5] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 5] Name is patched": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 5] data field is not removed by patch": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 5] Price is not affected by patch": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				133
+			],
+			"allTests": [
+				{
+					"[Flow 1 - Step 5] Status code is 200": true,
+					"[Flow 1 - Step 5] Name is patched": true,
+					"[Flow 1 - Step 5] data field is not removed by patch": true,
+					"[Flow 1 - Step 5] Price is not affected by patch": true
+				}
+			]
+		},
+		{
+			"id": "c870feb2-38cc-4add-9a55-5112930f24b8",
+			"name": "[Flow 1 - Step 6] GET: Verify object was patched",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925d9a891420",
+			"time": 155,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 1 - Step 6] Status code is 200": true,
+				"[Flow 1 - Step 6] Name reflects patch from Step 5": true,
+				"[Flow 1 - Step 6] Price still intact after patch": true
+			},
+			"testPassFailCounts": {
+				"[Flow 1 - Step 6] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 6] Name reflects patch from Step 5": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 6] Price still intact after patch": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				155
+			],
+			"allTests": [
+				{
+					"[Flow 1 - Step 6] Status code is 200": true,
+					"[Flow 1 - Step 6] Name reflects patch from Step 5": true,
+					"[Flow 1 - Step 6] Price still intact after patch": true
+				}
+			]
+		},
+		{
+			"id": "8f37cf8b-4857-4722-b652-f53de1e9c44b",
+			"name": "[Flow 1 - Step 7] DELETE: Delete the object",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925d9a891420",
+			"time": 157,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 1 - Step 7] Status code is 200": true,
+				"[Flow 1 - Step 7] Message contains deleted object ID": true
+			},
+			"testPassFailCounts": {
+				"[Flow 1 - Step 7] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 7] Message contains deleted object ID": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				157
+			],
+			"allTests": [
+				{
+					"[Flow 1 - Step 7] Status code is 200": true,
+					"[Flow 1 - Step 7] Message contains deleted object ID": true
+				}
+			]
+		},
+		{
+			"id": "bcc2cf2e-3684-4c89-a65d-2eb937d4ecea",
+			"name": "[Flow 1 - Step 8] GET: Verify object is deleted",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925d9a891420",
+			"time": 174,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"[Flow 1 - Step 8] Status code is 404 - object no longer exists": true,
+				"[Flow 1 - Step 8] Error field is returned": true
+			},
+			"testPassFailCounts": {
+				"[Flow 1 - Step 8] Status code is 404 - object no longer exists": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 1 - Step 8] Error field is returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				174
+			],
+			"allTests": [
+				{
+					"[Flow 1 - Step 8] Status code is 404 - object no longer exists": true,
+					"[Flow 1 - Step 8] Error field is returned": true
+				}
+			]
+		},
+		{
+			"id": "318dc772-8595-4b56-bdce-510131108d62",
+			"name": "[Flow 2 - Step 1] POST: Create object with specific data",
+			"url": "https://api.restful-api.dev/objects",
+			"time": 141,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 2 - Step 1] Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"[Flow 2 - Step 1] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				141
+			],
+			"allTests": [
+				{
+					"[Flow 2 - Step 1] Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "c1e68da2-2bf9-4e78-8fe8-ecdb95b543bd",
+			"name": "[Flow 2 - Step 2] GET: Verify data matches created object",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925da16e1421",
+			"time": 124,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 2 - Step 2] Status code is 200": true,
+				"[Flow 2 - Step 2] Name matches POST response": true,
+				"[Flow 2 - Step 2] Price matches POST response": true
+			},
+			"testPassFailCounts": {
+				"[Flow 2 - Step 2] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 2 - Step 2] Name matches POST response": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Flow 2 - Step 2] Price matches POST response": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				124
+			],
+			"allTests": [
+				{
+					"[Flow 2 - Step 2] Status code is 200": true,
+					"[Flow 2 - Step 2] Name matches POST response": true,
+					"[Flow 2 - Step 2] Price matches POST response": true
+				}
+			]
+		},
+		{
+			"id": "f061cbe7-542b-46f8-a04c-61e7aaac5a43",
+			"name": "[Flow 3 - Step 1] POST: Create object to be deleted",
+			"url": "https://api.restful-api.dev/objects",
+			"time": 138,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 3 - Step 1] Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"[Flow 3 - Step 1] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				138
+			],
+			"allTests": [
+				{
+					"[Flow 3 - Step 1] Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "c17674f8-8196-4600-a1d7-22e5c79e3e30",
+			"name": "[Flow 3 - Step 2] DELETE: Delete the object",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925da2f81422",
+			"time": 138,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 3 - Step 2] Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"[Flow 3 - Step 2] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				138
+			],
+			"allTests": [
+				{
+					"[Flow 3 - Step 2] Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "fcf53498-9b44-4f7f-8b6d-f1901a39db05",
+			"name": "[Flow 3 - Step 3] PUT: Try to update deleted object",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925da2f81422",
+			"time": 124,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"[Flow 3 - Step 3] Status code is 404 - cannot update deleted object": true
+			},
+			"testPassFailCounts": {
+				"[Flow 3 - Step 3] Status code is 404 - cannot update deleted object": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				124
+			],
+			"allTests": [
+				{
+					"[Flow 3 - Step 3] Status code is 404 - cannot update deleted object": true
+				}
+			]
+		},
+		{
+			"id": "8d7dc89b-f2e9-4b4c-98df-35f7f355c979",
+			"name": "[Flow 4 - Step 1] POST: Create object to be double deleted",
+			"url": "https://api.restful-api.dev/objects",
+			"time": 126,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 4 - Step 1] Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"[Flow 4 - Step 1] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				126
+			],
+			"allTests": [
+				{
+					"[Flow 4 - Step 1] Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "fcce3145-1a71-4dbd-b7f6-b959e2bfd786",
+			"name": "[Flow 4 - Step 2] DELETE: Delete the object (first time)",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925da52b1423",
+			"time": 128,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Flow 4 - Step 2] Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"[Flow 4 - Step 2] Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				128
+			],
+			"allTests": [
+				{
+					"[Flow 4 - Step 2] Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "8af5c9e3-cd75-4b1b-9229-5ef14bac3c28",
+			"name": "[Flow 4 - Step 3] DELETE: Try to delete again (second time)",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d925da52b1423",
+			"time": 121,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"[Flow 4 - Step 3] Status code is 404 - cannot delete already deleted object": true
+			},
+			"testPassFailCounts": {
+				"[Flow 4 - Step 3] Status code is 404 - cannot delete already deleted object": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				121
+			],
+			"allTests": [
+				{
+					"[Flow 4 - Step 3] Status code is 404 - cannot delete already deleted object": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2581,
+	"collection": {
+		"requests": [
+			{
+				"id": "519eb346-f8d2-44fa-9488-10223d06fff3",
+				"method": "POST"
+			},
+			{
+				"id": "e8969542-c28f-4719-ad5d-874962a0a16c",
+				"method": "GET"
+			},
+			{
+				"id": "c6e812bb-eff5-437d-b06d-197a1794c3f0",
+				"method": "PUT"
+			},
+			{
+				"id": "47c4566f-c213-43c6-8e22-abffa0c155ad",
+				"method": "GET"
+			},
+			{
+				"id": "e0f03259-995b-4ab2-b71c-ee0e9e4d3ba6",
+				"method": "PATCH"
+			},
+			{
+				"id": "c870feb2-38cc-4add-9a55-5112930f24b8",
+				"method": "GET"
+			},
+			{
+				"id": "8f37cf8b-4857-4722-b652-f53de1e9c44b",
+				"method": "DELETE"
+			},
+			{
+				"id": "bcc2cf2e-3684-4c89-a65d-2eb937d4ecea",
+				"method": "GET"
+			},
+			{
+				"id": "318dc772-8595-4b56-bdce-510131108d62",
+				"method": "POST"
+			},
+			{
+				"id": "c1e68da2-2bf9-4e78-8fe8-ecdb95b543bd",
+				"method": "GET"
+			},
+			{
+				"id": "f061cbe7-542b-46f8-a04c-61e7aaac5a43",
+				"method": "POST"
+			},
+			{
+				"id": "c17674f8-8196-4600-a1d7-22e5c79e3e30",
+				"method": "DELETE"
+			},
+			{
+				"id": "fcf53498-9b44-4f7f-8b6d-f1901a39db05",
+				"method": "PUT"
+			},
+			{
+				"id": "8d7dc89b-f2e9-4b4c-98df-35f7f355c979",
+				"method": "POST"
+			},
+			{
+				"id": "fcce3145-1a71-4dbd-b7f6-b959e2bfd786",
+				"method": "DELETE"
+			},
+			{
+				"id": "8af5c9e3-cd75-4b1b-9229-5ef14bac3c28",
+				"method": "DELETE"
+			}
+		]
+	}
+}
