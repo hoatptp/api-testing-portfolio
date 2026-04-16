@@ -1,0 +1,598 @@
+{
+	"id": "8fbb81eb-da7f-47d0-8db1-c38c9e7c1a66",
+	"name": "restful-api.dev - Unit Tests Copy",
+	"timestamp": "2026-04-15T18:06:39.713Z",
+	"collection_id": "21093733-5e7bc07c-d8d8-4e3d-b944-24fafd9e236f",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 46,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-04-15T18:06:36.342Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "4228fdf2-ae8b-4edb-ba2f-68d9766ab2a5",
+			"name": "[POSITIVE] Get all objects",
+			"url": "https://api.restful-api.dev/objects",
+			"time": 341,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 2000ms": true,
+				"Response is an array": true,
+				"Array is not empty": true,
+				"Each object has id and name": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 2000ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Array is not empty": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each object has id and name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				341
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 2000ms": true,
+					"Response is an array": true,
+					"Array is not empty": true,
+					"Each object has id and name": true
+				}
+			]
+		},
+		{
+			"id": "908287f5-f0ab-4859-be63-a55328fff0d0",
+			"name": "[POSITIVE] Get multiple objects by IDs",
+			"url": "https://api.restful-api.dev/objects?id=3&id=5&id=10",
+			"time": 141,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 2000ms": true,
+				"Returns exactly 3 objects": true,
+				"Returned IDs match requested IDs": true,
+				"No extra objects are returned": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 2000ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns exactly 3 objects": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returned IDs match requested IDs": {
+					"pass": 1,
+					"fail": 0
+				},
+				"No extra objects are returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				141
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 2000ms": true,
+					"Returns exactly 3 objects": true,
+					"Returned IDs match requested IDs": true,
+					"No extra objects are returned": true
+				}
+			]
+		},
+		{
+			"id": "75c55076-7633-4a0c-928a-6bc50736f5ab",
+			"name": "[POSITIVE] Get a single object",
+			"url": "https://api.restful-api.dev/objects/7",
+			"time": 124,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 2000ms": true,
+				"Object ID matches request": true,
+				"Name is a non-empty string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 2000ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Object ID matches request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Name is a non-empty string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				124
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 2000ms": true,
+					"Object ID matches request": true,
+					"Name is a non-empty string": true
+				}
+			]
+		},
+		{
+			"id": "f3677159-bc5d-48da-a646-36fbd5fdda19",
+			"name": "[NEGATIVE] Get a single object - Not Found",
+			"url": "https://api.restful-api.dev/objects/99999999",
+			"time": 235,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404": true,
+				"Error field is returned": true,
+				"Error message is a non-empty string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error field is returned": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error message is a non-empty string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				235
+			],
+			"allTests": [
+				{
+					"Status code is 404": true,
+					"Error field is returned": true,
+					"Error message is a non-empty string": true
+				}
+			]
+		},
+		{
+			"id": "e49b6a69-894a-4341-843f-1f8446b7efcb",
+			"name": "[POSITIVE] Add a new object",
+			"url": "https://api.restful-api.dev/objects",
+			"time": 137,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 2000ms": true,
+				"Created object has an ID": true,
+				"Name matches request body": true,
+				"Data.year matches request body": true,
+				"Data.price matches request body": true,
+				"createdAt timestamp is present": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 2000ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Created object has an ID": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Name matches request body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Data.year matches request body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Data.price matches request body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"createdAt timestamp is present": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				137
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 2000ms": true,
+					"Created object has an ID": true,
+					"Name matches request body": true,
+					"Data.year matches request body": true,
+					"Data.price matches request body": true,
+					"createdAt timestamp is present": true
+				}
+			]
+		},
+		{
+			"id": "5f8bdf33-74b3-44bd-b6c8-7011392fd08f",
+			"name": "[NEGATIVE] Add object - Missing name field",
+			"url": "https://api.restful-api.dev/objects",
+			"time": 143,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 - API does not enforce name as required": true,
+				"Object is created even without name field": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 - API does not enforce name as required": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Object is created even without name field": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				143
+			],
+			"allTests": [
+				{
+					"Status code is 200 - API does not enforce name as required": true,
+					"Object is created even without name field": true
+				}
+			]
+		},
+		{
+			"id": "4a5242a8-0232-4e0e-b037-db828a8a31ba",
+			"name": "[POSITIVE] Update an object (Full)",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d9252ea591417",
+			"time": 135,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Name is updated": true,
+				"Price is updated": true,
+				"Year is updated": true,
+				"updatedAt timestamp is present": true,
+				"Object ID is unchanged": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Name is updated": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Price is updated": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Year is updated": {
+					"pass": 1,
+					"fail": 0
+				},
+				"updatedAt timestamp is present": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Object ID is unchanged": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				135
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Name is updated": true,
+					"Price is updated": true,
+					"Year is updated": true,
+					"updatedAt timestamp is present": true,
+					"Object ID is unchanged": true
+				}
+			]
+		},
+		{
+			"id": "22a38a12-61f0-4276-9b9d-68f6d5bd577f",
+			"name": "[NEGATIVE] Update an object - Not Found",
+			"url": "https://api.restful-api.dev/objects/99999999",
+			"time": 143,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404": true,
+				"Error field is returned": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error field is returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				143
+			],
+			"allTests": [
+				{
+					"Status code is 404": true,
+					"Error field is returned": true
+				}
+			]
+		},
+		{
+			"id": "2f0348dc-bc92-4caf-8195-41f75925e3f0",
+			"name": "[POSITIVE] Partially update an object",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d9252ea591417",
+			"time": 135,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Name is patched": true,
+				"data field is not removed by patch": true,
+				"updatedAt timestamp is present": true,
+				"Object ID is unchanged": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Name is patched": {
+					"pass": 1,
+					"fail": 0
+				},
+				"data field is not removed by patch": {
+					"pass": 1,
+					"fail": 0
+				},
+				"updatedAt timestamp is present": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Object ID is unchanged": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				135
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Name is patched": true,
+					"data field is not removed by patch": true,
+					"updatedAt timestamp is present": true,
+					"Object ID is unchanged": true
+				}
+			]
+		},
+		{
+			"id": "680796c2-02b5-43d9-8b86-3d912ff42775",
+			"name": "[NEGATIVE] Partially update an object - Not Found",
+			"url": "https://api.restful-api.dev/objects/99999999",
+			"time": 145,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404": true,
+				"Error field is returned": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error field is returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				145
+			],
+			"allTests": [
+				{
+					"Status code is 404": true,
+					"Error field is returned": true
+				}
+			]
+		},
+		{
+			"id": "2309265f-2efb-4d56-b09f-8d148cf3f791",
+			"name": "[POSITIVE] Delete an object",
+			"url": "https://api.restful-api.dev/objects/ff8081819d82fab6019d9252ea591417",
+			"time": 133,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response has message field": true,
+				"Message contains deleted object ID": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has message field": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message contains deleted object ID": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				133
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response has message field": true,
+					"Message contains deleted object ID": true
+				}
+			]
+		},
+		{
+			"id": "d00d3d60-279f-4080-9f1c-0e03fb557695",
+			"name": "[NEGATIVE] Delete an object - Not Found",
+			"url": "https://api.restful-api.dev/objects/99999999",
+			"time": 142,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404": true,
+				"Error field is returned": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error field is returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				142
+			],
+			"allTests": [
+				{
+					"Status code is 404": true,
+					"Error field is returned": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 1954,
+	"collection": {
+		"requests": [
+			{
+				"id": "4228fdf2-ae8b-4edb-ba2f-68d9766ab2a5",
+				"method": "GET"
+			},
+			{
+				"id": "908287f5-f0ab-4859-be63-a55328fff0d0",
+				"method": "GET"
+			},
+			{
+				"id": "75c55076-7633-4a0c-928a-6bc50736f5ab",
+				"method": "GET"
+			},
+			{
+				"id": "f3677159-bc5d-48da-a646-36fbd5fdda19",
+				"method": "GET"
+			},
+			{
+				"id": "e49b6a69-894a-4341-843f-1f8446b7efcb",
+				"method": "POST"
+			},
+			{
+				"id": "5f8bdf33-74b3-44bd-b6c8-7011392fd08f",
+				"method": "POST"
+			},
+			{
+				"id": "4a5242a8-0232-4e0e-b037-db828a8a31ba",
+				"method": "PUT"
+			},
+			{
+				"id": "22a38a12-61f0-4276-9b9d-68f6d5bd577f",
+				"method": "PUT"
+			},
+			{
+				"id": "2f0348dc-bc92-4caf-8195-41f75925e3f0",
+				"method": "PATCH"
+			},
+			{
+				"id": "680796c2-02b5-43d9-8b86-3d912ff42775",
+				"method": "PATCH"
+			},
+			{
+				"id": "2309265f-2efb-4d56-b09f-8d148cf3f791",
+				"method": "DELETE"
+			},
+			{
+				"id": "d00d3d60-279f-4080-9f1c-0e03fb557695",
+				"method": "DELETE"
+			}
+		]
+	}
+}
